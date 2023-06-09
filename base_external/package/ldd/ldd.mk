@@ -15,4 +15,13 @@ LDD_MODULE_SUBDIRS += scull
 LDD_MODULE_MAKE_OPTS = KVERSION=$(LINUX_VERSION_PROBED)
 
 $(eval $(kernel-module))
+
+define LDD_INSTALL_TARGET_CMDS
+	$(INSTALL) -m 0755 $(@D)/scull/scull_load $(TARGET_DIR)/usr/bin/
+	$(INSTALL) -m 0755 $(@D)/scull/scull_unload $(TARGET_DIR)/usr/bin/
+	$(INSTALL) -m 0755 $(@D)/misc-modules/module_load $(TARGET_DIR)/usr/bin/
+	$(INSTALL) -m 0755 $(@D)/misc-modules/module_unload $(TARGET_DIR)/usr/bin/
+endef
+LDD_POST_BUILD_HOOKS += LDD_INSTALL_TARGET_CMDS
+
 $(eval $(generic-package))
